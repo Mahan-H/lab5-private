@@ -7,15 +7,14 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import java.awt.Toolkit;
 import java.awt.Dimension;
-import java.awt.Color;
 
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.ChangePasswordController;
-import interface_adapter.change_password.ChangePasswordPresenter;
-import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.verify.VerifyController;
+import interface_adapter.verify.VerifyPresenter;
+import interface_adapter.verify.VerifyViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -27,9 +26,9 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
-import use_case.change_password.ChangePasswordInputBoundary;
-import use_case.change_password.ChangePasswordInteractor;
-import use_case.change_password.ChangePasswordOutputBoundary;
+import use_case.verify.VerifyInputBoundary;
+import use_case.verify.VerifyInteractor;
+import use_case.verify.VerifyOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -72,8 +71,8 @@ public class AppBuilder {
     private WelcomeViewModel welcomeViewModel;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
-    private LoggedInViewModel loggedInViewModel;
-    private LoggedInView loggedInView;
+    private VerifyViewModel loggedInViewModel;
+    private VerifyView loggedInView;
     private LoginView loginView;
 
     public AppBuilder() {
@@ -108,8 +107,8 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addLoggedInView() {
-        loggedInViewModel = new LoggedInViewModel();
-        loggedInView = new LoggedInView(loggedInViewModel);
+        loggedInViewModel = new VerifyViewModel();
+        loggedInView = new VerifyView(loggedInViewModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
     }
@@ -149,15 +148,15 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addChangePasswordUseCase() {
-        final ChangePasswordOutputBoundary changePasswordOutputBoundary =
-                new ChangePasswordPresenter(loggedInViewModel);
+        final VerifyOutputBoundary changePasswordOutputBoundary =
+                new VerifyPresenter(loggedInViewModel);
 
-        final ChangePasswordInputBoundary changePasswordInteractor =
-                new ChangePasswordInteractor(userDataAccessObject, changePasswordOutputBoundary, userFactory);
+        final VerifyInputBoundary changePasswordInteractor =
+                new VerifyInteractor(userDataAccessObject, changePasswordOutputBoundary, userFactory);
 
-        final ChangePasswordController changePasswordController =
-                new ChangePasswordController(changePasswordInteractor);
-        loggedInView.setChangePasswordController(changePasswordController);
+        final VerifyController changePasswordController =
+                new VerifyController(changePasswordInteractor);
+        loggedInView.setVerifyController(changePasswordController);
         return this;
     }
 

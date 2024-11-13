@@ -1,15 +1,15 @@
-package use_case.change_password;
+package use_case.verify;
 
 /**
  * Output Data for the Change Password Use Case.
  */
-public class ChangePasswordOutputData {
+public class VerifyOutputData {
 
     private final String username;
 
     private final boolean useCaseFailed;
 
-    public ChangePasswordOutputData(String username, boolean useCaseFailed) {
+    public VerifyOutputData(String username, boolean useCaseFailed) {
         this.username = username;
         this.useCaseFailed = useCaseFailed;
     }

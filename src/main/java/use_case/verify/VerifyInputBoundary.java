@@ -1,14 +1,14 @@
-package use_case.change_password;
+package use_case.verify;
 
 /**
  * The Change Password Use Case.
  */
-public interface ChangePasswordInputBoundary {
+public interface VerifyInputBoundary {
 
     /**
      * Execute the Change Password Use Case.
      * @param changePasswordInputData the input data for this use case
      */
-    void execute(ChangePasswordInputData changePasswordInputData);
+    void execute(VerifyInputData changePasswordInputData);
 
 }
