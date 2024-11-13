@@ -19,6 +19,7 @@ public class Main {
                                             .addWelcomeView()
                                             .addLoggedInView()
                                             .addSignupUseCase()
+                                            .addWelcomeUseCase()
                                             .addLoginUseCase()
                                             .addChangePasswordUseCase()
                                             .addLogoutUseCase()

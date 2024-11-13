@@ -51,13 +51,13 @@ public class WelcomeView extends JPanel implements ActionListener {
                 }
         );
 
-//        createAccount.addActionListener(
-//                new ActionListener() {
-//                    public void actionPerformed(ActionEvent evt) {
-//                        welcomeController.switchToSignUpView();
-//                    }
-//                }
-//        );
+        createAccount.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        welcomeController.switchToSignUpView();
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);

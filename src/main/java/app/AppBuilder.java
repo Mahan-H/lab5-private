@@ -21,6 +21,8 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.welcome.WelcomeController;
+import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
@@ -34,6 +36,9 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.welcome.WelcomeInputBoundary;
+import use_case.welcome.WelcomeInteractor;
+import use_case.welcome.WelcomeOutputBoundary;
 import view.*;
 
 /**
@@ -171,6 +176,20 @@ public class AppBuilder {
         welcomeViewModel = new WelcomeViewModel();
         welcomeView = new WelcomeView(welcomeViewModel);
         cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the welcome Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addWelcomeUseCase() {
+        final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(viewManagerModel,
+                welcomeViewModel, loginViewModel, signupViewModel);
+        final WelcomeInputBoundary userWelcomeInteractor = new WelcomeInteractor(welcomeOutputBoundary, userFactory);
+
+        final WelcomeController controller = new WelcomeController(userWelcomeInteractor);
+        welcomeView.setWelcomeController(controller);
         return this;
     }
 
