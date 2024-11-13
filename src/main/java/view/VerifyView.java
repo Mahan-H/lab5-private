@@ -13,57 +13,57 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import interface_adapter.change_password.ChangePasswordController;
-import interface_adapter.change_password.LoggedInState;
-import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.verify.VerifyController;
+import interface_adapter.verify.VerifyState;
+import interface_adapter.verify.VerifyViewModel;
 import interface_adapter.logout.LogoutController;
 
 /**
  * The View for when the user is logged into the program.
  */
-public class LoggedInView extends JPanel implements PropertyChangeListener {
+public class VerifyView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "logged in";
-    private final LoggedInViewModel loggedInViewModel;
-    private final JLabel passwordErrorField = new JLabel();
-    private ChangePasswordController changePasswordController;
+    private final VerifyViewModel verifyViewModel;
+    private final JLabel verifyErrorField = new JLabel();
+    private VerifyController verifyController;
     private LogoutController logoutController;
 
     private final JLabel username;
 
     private final JButton logOut;
 
-    private final JTextField passwordInputField = new JTextField(15);
-    private final JButton changePassword;
+    private final JTextField codeInputField = new JTextField(15);
+    private final JButton verifyButton;
 
-    public LoggedInView(LoggedInViewModel loggedInViewModel) {
-        this.loggedInViewModel = loggedInViewModel;
-        this.loggedInViewModel.addPropertyChangeListener(this);
+    public VerifyView(VerifyViewModel verifyViewModel) {
+        this.verifyViewModel = verifyViewModel;
+        this.verifyViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel("Logged In Screen");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel title = new JLabel("Verify Screen");
+        title.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel("Password"), passwordInputField);
+                new JLabel("Code"), codeInputField);
 
-        final JLabel usernameInfo = new JLabel("Currently logged in: ");
+        final JLabel codeInfo = new JLabel("Sent Code to: ");
         username = new JLabel();
 
         final JPanel buttons = new JPanel();
         logOut = new JButton("Log Out");
         buttons.add(logOut);
 
-        changePassword = new JButton("Change Password");
-        buttons.add(changePassword);
+        verifyButton = new JButton(" Verify Code");
+        buttons.add(verifyButton);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        passwordInputField.getDocument().addDocumentListener(new DocumentListener() {
+        codeInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
-                final LoggedInState currentState = loggedInViewModel.getState();
-                currentState.setPassword(passwordInputField.getText());
-                loggedInViewModel.setState(currentState);
+                final VerifyState currentState = verifyViewModel.getState();
+                currentState.setPassword(codeInputField.getText());
+                verifyViewModel.setState(currentState);
             }
 
             @Override
@@ -82,13 +82,13 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             }
         });
 
-        changePassword.addActionListener(
+        verifyButton.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
-                    if (evt.getSource().equals(changePassword)) {
-                        final LoggedInState currentState = loggedInViewModel.getState();
+                    if (evt.getSource().equals(verifyButton)) {
+                        final VerifyState currentState = verifyViewModel.getState();
 
-                        this.changePasswordController.execute(
+                        this.verifyController.execute(
                                 currentState.getUsername(),
                                 currentState.getPassword()
                         );
@@ -100,29 +100,29 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
                     if (evt.getSource().equals(logOut)) {
-                        final LoggedInState currentState = loggedInViewModel.getState();
+                        final VerifyState currentState = verifyViewModel.getState();
                         this.logoutController.execute(currentState.getUsername());
                     }
                 }
         );
 
         this.add(title);
-        this.add(usernameInfo);
+        this.add(codeInfo);
         this.add(username);
 
         this.add(passwordInfo);
-        this.add(passwordErrorField);
+        this.add(verifyErrorField);
         this.add(buttons);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
-            final LoggedInState state = (LoggedInState) evt.getNewValue();
+            final VerifyState state = (VerifyState) evt.getNewValue();
             username.setText(state.getUsername());
         }
         else if (evt.getPropertyName().equals("password")) {
-            final LoggedInState state = (LoggedInState) evt.getNewValue();
+            final VerifyState state = (VerifyState) evt.getNewValue();
             JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
         }
 
@@ -132,8 +132,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         return viewName;
     }
 
-    public void setChangePasswordController(ChangePasswordController changePasswordController) {
-        this.changePasswordController = changePasswordController;
+    public void setVerifyController(VerifyController verifyController) {
+        this.verifyController = verifyController;
     }
 
     public void setLogoutController(LogoutController logoutController) {
