@@ -1,10 +1,13 @@
 package app;
 
-import java.awt.CardLayout;
+import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import java.awt.Toolkit;
+import java.awt.Dimension;
+import java.awt.Color;
 
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
@@ -41,6 +44,7 @@ import use_case.welcome.WelcomeInteractor;
 import use_case.welcome.WelcomeOutputBoundary;
 import view.*;
 
+
 /**
  * The AppBuilder class is responsible for putting together the pieces of
  * our CA architecture; piece by piece.
@@ -74,6 +78,7 @@ public class AppBuilder {
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
+        cardPanel.setPreferredSize(new Dimension(850, 550));
     }
 
     /**
@@ -198,9 +203,14 @@ public class AppBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("Login Example");
+        final JFrame application = new JFrame("Osiris");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+        application.setSize(850, 550);
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension frameSize = application.getSize();
+        final int x = (screenSize.width - frameSize.width) / 2;
+        final int y = (screenSize.height - frameSize.height) / 2;
+        application.setLocation(x, y);
         application.add(cardPanel);
 
         viewManagerModel.setState(welcomeView.getViewName());
