@@ -17,12 +17,14 @@ public class Main {
                                             .addLoginView()
                                             .addSignupView()
                                             .addWelcomeView()
-                                            .addLoggedInView()
+                                            .addVerifyView()
+                                            .addVerifyUseCase()
                                             .addSignupUseCase()
                                             .addWelcomeUseCase()
                                             .addLoginUseCase()
-                                            .addChangePasswordUseCase()
-                                            .addLogoutUseCase()
+                                            .addVerifyUseCase()
+//                                          .addChangePasswordUseCase()
+//                                          .addLogoutUseCase()
                                             .build();
 
         application.pack();
